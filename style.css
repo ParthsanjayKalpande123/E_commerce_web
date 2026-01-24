@@ -1,0 +1,129 @@
+body {
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+.navbar-brand {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.cart-count {
+    background: #198754;
+    padding: 3px 8px;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.hero {
+  background: url("images/fashion-bg.jpg") center/cover no-repeat;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.6); 
+  color: #fff;
+  padding: 40px 60px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+.product-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.product-card img {
+    height: 250px;
+    object-fit: cover;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.category {
+    font-size: 12px;
+    background: #000;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.price {
+    color: #198754;
+    font-size: 20px;
+    font-weight: bold;
+}
+.btn-dark {
+    border-radius: 30px;
+}
+
+.btn-dark:hover {
+    background-color: #111;
+}
+.cart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.cart-total {
+    font-size: 22px;
+    font-weight: bold;
+    color: #198754;
+}
+.checkout-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+footer {
+    background: #111;
+    color: #bbb;
+    padding: 30px 10px;
+    margin-top: 50px;
+}
+
+footer h5 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+footer p,
+footer a {
+    font-size: 14px;
+    color: #bbb;
+}
+
+footer a:hover {
+    color: #fff;
+}
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 32px;
+    }
+}
