@@ -20,7 +20,7 @@
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#authModal">
-  <i class="fa-solid fa-user"></i> Login / Signup
+  <i class="fa-regular fa-user"></i>Login / Signup
 </button>
       <div id="logoutSection" class="d-none">
         <button class="btn btn-sm btn-outline-light" onclick="logout()">Logout</button>
@@ -41,24 +41,53 @@
 </section>
 
 <div class="container mt-4">
-  <div class="row g-2 align-items-center">
-    <div class="col-md-6">
-      <input type="text" id="searchInput" class="form-control" placeholder="Search for names, 'party', 'traditional'..." onkeyup="filterProducts()">
+  <div class="filter-bar">
+
+    <!-- Search -->
+    <input
+      type="text"
+      id="searchInput"
+      class="form-control filter-search"
+      placeholder="Search for names, 'party', 'traditional'..."
+      onkeyup="filterProducts()"
+    />
+
+    <!-- Category -->
+    <select
+      id="categorySelect"
+      class="form-select filter-category"
+      onchange="filterProducts()"
+    >
+      <option value="all">All Categories</option>
+      <option value="men">Men's Wear</option>
+      <option value="shirts">Shirts</option>
+      <option value="women">Women's Wear</option>
+      <option value="cosmetics">Cosmetics</option>
+      <option value="footwear">Footwear</option>
+      <option value="jewelry">Jewelry</option>
+      <option value="saree">Sarees</option>
+    </select>
+
+    <!-- Price -->
+    <div class="filter-price">
+      <span class="price-text">₹0</span>
+
+      <input
+        type="range"
+        id="priceRange"
+        min="0"
+        max="20000"
+        step="100"
+        value="20000"
+        oninput="updatePriceFilter()"
+      />
+
+      <span class="price-text">₹<span id="maxPrice">10000</span></span>
     </div>
-    <div class="col-md-4">
-      <select id="categorySelect" class="form-select" onchange="filterProducts()">
-        <option value="all">All Categories</option>
-        <option value="men">Men's Wear</option>
-        <option value="shirts">Shirts</option>
-        <option value="women">Women's Wear</option>
-        <option value="cosmetics">Cosmetics</option>
-        <option value="footwear">Footwear</option>
-        <option value="jewelry">Jewelry</option>
-        <option value="saree">Sarees</option>
-      </select>
-    </div>
+
   </div>
 </div>
+
 
 <div class="container mt-5">
   <div class="mb-4 text-center">
@@ -97,6 +126,8 @@
 </div>
 
 <script>
+  let selectedMaxPrice = 10000;
+
 const menProducts = [
   { id: 1, name: "Cyan Slim Fit Shirt", price: 899, img: "images/images.jpeg", category: "men", subCategory: "shirt", tags: ["formal", "office", "party", "slim fit"] },
   { id: 2, name: "Mint Striped Casual Shirt", price: 1199, img: "images/shirt-3.jpeg", category: "men", subCategory: "shirt", tags: ["casual", "summer", "stripes"] },
@@ -186,21 +217,69 @@ function filterProducts() {
 
   const filtered = allProducts.filter(p => {
     const matchName = p.name.toLowerCase().includes(searchText);
-    const matchTags = p.tags && p.tags.some(tag => tag.toLowerCase().includes(searchText));
-    const matchCategory = selectedCat === "all" || 
-                          p.category === selectedCat || 
-                          p.subCategory === selectedCat;
-    return (matchName || matchTags) && matchCategory;
+    const matchTags = p.tags && p.tags.some(tag =>
+      tag.toLowerCase().includes(searchText)
+    );
+
+    const matchCategory =
+      selectedCat === "all" ||
+      p.category === selectedCat ||
+      p.subCategory === selectedCat;
+
+    const matchPrice = p.price <= selectedMaxPrice;
+
+    return (matchName || matchTags) && matchCategory && matchPrice;
   });
 
   renderProducts(filtered, "productSection");
 }
+
+function updatePriceFilter() {
+  const slider = document.getElementById("priceRange");
+  selectedMaxPrice = Number(slider.value);
+
+  document.getElementById("maxPrice").innerText = selectedMaxPrice;
+
+  filterProducts();
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts(allProducts, "productSection");
   if (typeof updateCartCount === "function") updateCartCount();
   if (typeof updateAuthUI === "function") updateAuthUI();
 });
+
+// Add this helper function at the end of your script
+function handleReveal() {
+    const reveals = document.querySelectorAll(".reveal");
+    reveals.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 100) {
+            el.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("scroll", handleReveal);
+
+// Update your existing renderProducts to add the class
+function renderProducts(products, sectionId) {
+    const container = document.getElementById(sectionId);
+    container.innerHTML = ""; 
+
+    products.forEach((product, index) => {
+        const card = `
+            <div class="col-md-3 reveal" style="animation-delay: ${index * 0.1}s">
+                <div class="card h-100 product-card shadow-sm border-0">
+                    </div>
+            </div>
+        `;
+        container.innerHTML += card;
+    });
+    handleReveal(); // Trigger immediately after rendering
+}
 </script>
 <script src="script.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
